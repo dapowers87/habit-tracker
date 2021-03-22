@@ -74,6 +74,11 @@ namespace Application.Actions.Account
                         result = jwtHandler.CreateToken();
                         loginAudit.FailCount = 0;
                     }
+                    else
+                    {
+                        loginAudit.FailCount++;
+                        result = null;
+                    }
                 }
                 else
                 {

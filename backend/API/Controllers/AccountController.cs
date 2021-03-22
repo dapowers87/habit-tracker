@@ -23,12 +23,27 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
         public async Task<ActionResult<string>> Login(string password)
         {
-            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            var result = await mediator.Send(new Login.Command { IpAddress = ip, Password = password });
+            var ipAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            return string.IsNullOrEmpty(result) ? NotFound() : Ok(result);
+            var result = await mediator.Send(new Login.Command { IpAddress = ipAddress, Password = password });
+
+            if(string.IsNullOrEmpty(result))
+            {
+                if(result == null) // Locked Out
+                {
+                    return Unauthorized("Locked out");
+                }
+                else
+                {
+                    return Unauthorized("Invalid Password");
+                }
+            }
+
+            return Ok(result);
         }
 
         [HttpGet]
