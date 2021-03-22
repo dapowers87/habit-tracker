@@ -35,7 +35,7 @@ namespace API.Controllers
         [Authorize]
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
-        public ActionResult QuickAuthorizationCheckRaptor()
+        public ActionResult QuickAuthorizationCheck()
         {
             return Ok();
         }

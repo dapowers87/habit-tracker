@@ -26,20 +26,14 @@ namespace Application.Security
         public string CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.AuthKey));
-            var claims = new List<Claim>()
-            {
-                new Claim(JwtRegisteredClaimNames.UniqueName, "dpowers"),
-                new Claim(JwtRegisteredClaimNames.NameId, "David Powers"),
-            };
 
             // generate signing credentials
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(config.TokenExpirationDays),
-                SigningCredentials = creds,
+                SigningCredentials = creds
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
