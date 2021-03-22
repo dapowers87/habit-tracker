@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Application.Actions.Account;
@@ -47,6 +48,17 @@ namespace API.Controllers
             var result = await mediator.Send(new Get.Query { WindowId = windowId });
 
             return result == null ? NotFound() : Ok(result);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult<List<Window>>> GetAll(bool includeExpired)
+        {
+            var result = await mediator.Send(new GetAll.Query { IncludeExpired = includeExpired });
+
+            return Ok(result);
         }
 
         [HttpPut]
