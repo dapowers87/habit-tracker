@@ -92,7 +92,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
         [SwaggerResponse((int)HttpStatusCode.NoContent)]
         [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<ActionResult> Update(int windowId, int newCheatDaysUsed)
+        public async Task<ActionResult> UpdateCheatDays(int windowId, int newCheatDaysUsed)
         {
             var result = await mediator.Send(new UpdateCheatDays.Command { WindowId = windowId, NewCheatDaysUsed = newCheatDaysUsed });
 

@@ -26,7 +26,9 @@ namespace Application.Actions.Window
 
             public async Task<List<Persistence.Entities.Window>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await context.Windows.Where(window => request.IncludeExpired ? true : (window.StartDate.AddDays(window.NumberOfDays) >= DateTime.Now)).ToListAsync(cancellationToken);
+                var result = await context.Windows.Where(window => request.IncludeExpired ? true : (window.StartDate.AddDays(window.NumberOfDays) >= DateTime.Now))
+                                                  .OrderByDescending(window => window.WindowId)
+                                                  .ToListAsync(cancellationToken);
 
                 return result;
             }

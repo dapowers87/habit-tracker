@@ -1,5 +1,5 @@
 import React from "react";
-import ISbrWindow from "./types/Window";
+import ISbrWindow from "./types/ISbrWindow";
 
 export interface IInitialState {
     Windows: ISbrWindow[]|undefined;
