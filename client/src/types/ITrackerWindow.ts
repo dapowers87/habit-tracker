@@ -1,4 +1,4 @@
-interface ISbrWindow {
+interface ITrackerWindow {
     windowId: number,
     startDate: Date,
     numberOfDays: number,
@@ -6,4 +6,4 @@ interface ISbrWindow {
     numberOfCheatDaysUsed: number
 }
 
-export default ISbrWindow;
+export default ITrackerWindow;

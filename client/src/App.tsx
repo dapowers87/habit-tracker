@@ -7,7 +7,7 @@ import {
 import { reducer, initialState, AppContext } from './store';
 import {createBrowserHistory} from 'history';
 import { ToastContainer } from 'react-toastify';
-import SbrWindow from './pages/SbrWindow/SbrWindow';
+import TrackerWindow from './pages/TrackerWindow/TrackerWindow';
 import LoginModal from './pages/Login/LoginModal';
 import agent from './api/agent';
 
@@ -24,8 +24,8 @@ export const App: React.FC = () => {
       <AppContext.Provider value={{ state, dispatch }}> 
         <Router history={history}>
           <Switch>
-            <Route exact path="/" component={SbrWindow} />
-            <Route exact path="/test" component={SbrWindow} />
+            <Route exact path="/" component={TrackerWindow} />
+            <Route exact path="/test" component={TrackerWindow} />
             <Route exact path="/login" component={LoginModal} />
           </Switch>
         </Router>

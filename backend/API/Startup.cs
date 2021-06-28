@@ -80,7 +80,7 @@ namespace API
 
             services.AddTransient<IJWTHandler, JWTHandler>();
 
-            services.AddDbContext<SbrContext>();
+            services.AddDbContext<TrackerContext>();
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
 

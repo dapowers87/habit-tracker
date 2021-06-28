@@ -18,8 +18,8 @@ namespace Application.Actions.Window
 
         public class Handler : IRequestHandler<Query, List<Persistence.Entities.Window>>
         {
-            private readonly SbrContext context;
-            public Handler(SbrContext context)
+            private readonly TrackerContext context;
+            public Handler(TrackerContext context)
             {
                 this.context = context;
             }

@@ -28,9 +28,9 @@ namespace Application.Actions.Account
             private readonly AuthenticationSettings config;
             private readonly ILogger<Login> logger;
             private readonly IJWTHandler jwtHandler;
-            private readonly SbrContext context;
+            private readonly TrackerContext context;
 
-            public Handler(IOptions<AuthenticationSettings> config, ILogger<Login> logger, IJWTHandler jwt, SbrContext context)
+            public Handler(IOptions<AuthenticationSettings> config, ILogger<Login> logger, IJWTHandler jwt, TrackerContext context)
             {
                 this.jwtHandler = jwt;
                 this.context = context;

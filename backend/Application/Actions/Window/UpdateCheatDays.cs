@@ -17,8 +17,8 @@ namespace Application.Actions.Window
 
         public class Handler : IRequestHandler<Command, int>
         {
-            private readonly SbrContext context;
-            public Handler(SbrContext context)
+            private readonly TrackerContext context;
+            public Handler(TrackerContext context)
             {
                 this.context = context;
             }

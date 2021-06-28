@@ -1,8 +1,8 @@
 import React from "react";
-import ISbrWindow from "./types/ISbrWindow";
+import ITrackerWindow from "./types/ITrackerWindow";
 
 export interface IInitialState {
-    Windows: ISbrWindow[]|undefined;
+    Windows: ITrackerWindow[]|undefined;
     IsLoggedIn: boolean;
 }
 

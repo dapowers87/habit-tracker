@@ -8,7 +8,7 @@ using Persistence;
 
 namespace Persistence.Migrations
 {
-    [DbContext(typeof(SbrContext))]
+    [DbContext(typeof(TrackerContext))]
     [Migration("20210322002620_InitialCreate")]
     partial class InitialCreate
     {

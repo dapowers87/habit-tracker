@@ -1,8 +1,8 @@
-import ISbrWindow from "../types/ISbrWindow";
+import ITrackerWindow from "../types/ITrackerWindow";
 
 export const WindowUtil = {
-    updateWindow: (window: ISbrWindow, windowCollection: ISbrWindow[]) => {
-        const index: number = windowCollection.map((subItem: ISbrWindow) => subItem.windowId).indexOf(window.windowId);
+    updateWindow: (window: ITrackerWindow, windowCollection: ITrackerWindow[]) => {
+        const index: number = windowCollection.map((subItem: ITrackerWindow) => subItem.windowId).indexOf(window.windowId);
         const preWindow = windowCollection.slice(0, index);
         const postWindow = windowCollection.slice(index + 1);
 

@@ -7,8 +7,8 @@ using Persistence;
 
 namespace Persistence.Migrations
 {
-    [DbContext(typeof(SbrContext))]
-    partial class SbrContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TrackerContext))]
+    partial class TrackerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

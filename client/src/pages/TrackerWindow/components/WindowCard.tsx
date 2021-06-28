@@ -3,10 +3,10 @@ import React, { useContext, useState } from 'react'
 import { Button, Card, Header, Label, Progress, Statistic } from 'semantic-ui-react';
 import agent from '../../../api/agent';
 import { AppContext, IInitialState, types } from '../../../store';
-import ISbrWindow from '../../../types/ISbrWindow';
+import ITrackerWindow from '../../../types/ITrackerWindow';
 import { WindowUtil } from '../../../util/WindowUtil';
 
-const WindowCard: React.FC<{window: ISbrWindow}> = ({ window }) => {
+const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
 
     const { state, dispatch } = useContext(AppContext);
     const { Windows } = state as IInitialState;

@@ -2,10 +2,10 @@ import React, { Fragment, useCallback, useContext, useEffect } from 'react'
 import { Card } from 'semantic-ui-react';
 import agent from '../../api/agent';
 import { AppContext, IInitialState, types } from '../../store';
-import ISbrWindow from '../../types/ISbrWindow';
+import ITrackerWindow from '../../types/ITrackerWindow';
 import WindowCard from './components/WindowCard';
 
-const SbrWindow: React.FC = () => {
+const TrackerWindow: React.FC = () => {
 
     const { state, dispatch } = useContext(AppContext);
     const { Windows } = state as IInitialState;
@@ -27,7 +27,7 @@ const SbrWindow: React.FC = () => {
     return (
         <Fragment>
             <Card.Group centered style={{marginTop: '20px'}}>
-                {Windows.map((window: ISbrWindow) => (
+                {Windows.map((window: ITrackerWindow) => (
                     <WindowCard window={window} />
                 ))}
             </Card.Group>
@@ -35,4 +35,4 @@ const SbrWindow: React.FC = () => {
     )
 }
 
-export default SbrWindow;
+export default TrackerWindow;

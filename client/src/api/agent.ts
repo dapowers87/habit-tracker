@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../App"; 
-import ISbrWindow from "../types/ISbrWindow";
+import ITrackerWindow from "../types/ITrackerWindow";
 
 declare global {
     interface Window { 
@@ -102,8 +102,8 @@ const Login = {
 const Window = {
     create: async (window: Window) => await requests.post('/v1/Window/Create', { window }),
     delete: async (windowId: number) => await requests.del(`/v1/Window/Delete?windowId=${windowId}`),
-    get: async (windowId: number) => await requests.get(`/v1/Window/Get?windowId=${windowId}`) as ISbrWindow,
-    getAll: async () => await requests.get(`/v1/Window/GetAll`) as ISbrWindow[],
+    get: async (windowId: number) => await requests.get(`/v1/Window/Get?windowId=${windowId}`) as ITrackerWindow,
+    getAll: async () => await requests.get(`/v1/Window/GetAll`) as ITrackerWindow[],
     update: async (window: Window) => await requests.put('/v1/Window/Update', { window }),
     updateCheatDays: async (windowId: number, newCheatDaysUsed: number) => await requests.post(`/v1/Window/UpdateCheatDays?windowId=${windowId}&newCheatDaysUsed=${newCheatDaysUsed}`, { })
 }
