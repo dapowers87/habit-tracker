@@ -25,11 +25,11 @@ namespace API.Controllers
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult<string>> Login(string password)
+        public async Task<ActionResult<string>> Login(string username, string password)
         {
             var ipAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            var result = await mediator.Send(new Login.Command { IpAddress = ipAddress, Password = password });
+            var result = await mediator.Send(new Login.Command { IpAddress = ipAddress, Username = username, Password = password });
 
             if(string.IsNullOrEmpty(result))
             {
