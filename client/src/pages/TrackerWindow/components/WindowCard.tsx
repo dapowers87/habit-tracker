@@ -1,5 +1,5 @@
 import dateFormat from 'dateformat';
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Button, Card, Header, Label, Progress, Statistic } from 'semantic-ui-react';
 import agent from '../../../api/agent';
 import { AppContext, IInitialState, types } from '../../../store';
@@ -13,6 +13,7 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
 
     const [disableAddButton, setDisableAddButton] = useState<boolean>(false);
     const [disableRemoveButton, setDisableRemoveButton] = useState<boolean>(false);
+    const [, setMinuteCounter] = useState<number>(0);
 
     const handleAddCheatDay = async () => {
         setDisableAddButton(true);
@@ -30,7 +31,17 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
         dispatch({type: types.SETWINDOWS, Windows: WindowUtil.updateWindow(window, Windows ?? [])})
     }
 
-    const getCurrentNumberOfDays = () => {
+    const updateMinute = () => {
+        setTimeout(() => 
+        {
+            setMinuteCounter(prevCount => prevCount + 1);
+            updateMinute();
+        }, 60000);
+    }
+
+    updateMinute();
+
+    const getCurrentNumberOfDays = useCallback(() => {
         const oneDay = 24 * 60 * 60 * 1000;
         const startDate = new Date(window.startDate);
         const endDate = new Date();
@@ -38,7 +49,7 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
         const numDays = diffInTime / oneDay;
 
         return numDays;
-    }
+    }, [window.startDate]);
 
     const getPercentage = () => {
         const percentage = Math.ceil(getCurrentNumberOfDays() / window.numberOfDays * 100);
