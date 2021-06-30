@@ -30,18 +30,18 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
         dispatch({type: types.SETWINDOWS, Windows: WindowUtil.updateWindow(window, Windows ?? [])})
     }
 
-    const getNumberOfDays = () => {
+    const getCurrentNumberOfDays = () => {
         const oneDay = 24 * 60 * 60 * 1000;
         const startDate = new Date(window.startDate);
-        const endDate = startDate.setDate(startDate.getDate() + window.numberOfDays);
-
-        const numDays = Math.ceil(Math.abs((startDate as any - endDate) / oneDay));
+        const endDate = new Date();
+        const diffInTime = endDate.getTime() - startDate.getTime();
+        const numDays = diffInTime / oneDay;
 
         return numDays;
     }
 
     const getPercentage = () => {
-        const percentage = getNumberOfDays() / window.numberOfDays * 100;
+        const percentage = Math.ceil(getCurrentNumberOfDays() / window.numberOfDays * 100);
 
         return percentage;
     }
@@ -60,11 +60,11 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
                 <Card.Header>
                     <Header as='h2' textAlign='center'>Window #{window.windowId}</Header>
                 </Card.Header>
-                <Card.Meta>Date Range: {dateFormat(window.startDate, 'm/dd/yyyy')} - {dateFormat((new Date(window.startDate)).setDate((new Date(window.startDate)).getDate() + window.numberOfDays), 'm/dd/yyyy')}</Card.Meta>
+                <Card.Meta textAlign='center'>Date Range: {dateFormat(window.startDate, 'm/dd/yyyy')} - {dateFormat((new Date(window.startDate)).setDate((new Date(window.startDate)).getDate() + window.numberOfDays), 'm/dd/yyyy')}</Card.Meta>
                 <Card.Content>
                     { isActive()
                     ?
-                        <Progress label={`Day ${getNumberOfDays() + 1} of  ${window.numberOfDays}`} percent={getPercentage()} indicating progress/>
+                        <Progress label={`Day ${Math.ceil(getCurrentNumberOfDays())} of  ${window.numberOfDays}`} percent={getPercentage()} indicating progress/>
                     :
                         <Label ribbon color='green'>COMPLETE</Label>
                     }

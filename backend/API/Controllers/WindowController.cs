@@ -114,7 +114,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
         [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<ActionResult> Delete(int windowId, int newCheatDaysUsed)
+        public async Task<ActionResult> Delete(int windowId)
         {
             var result = await mediator.Send(new Delete.Command { WindowId = windowId });
 

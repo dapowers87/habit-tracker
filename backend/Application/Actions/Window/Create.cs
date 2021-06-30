@@ -25,7 +25,7 @@ namespace Application.Actions.Window
             {
                 var newWindow = new Persistence.Entities.Window
                 {
-                    StartDate = request.Model.StartDate,
+                    StartDate = request.Model.StartDate.Date,
                     NumberOfDays = request.Model.NumberOfDays,
                     NumberOfCheatDays = request.Model.NumberOfCheatDays
                 };

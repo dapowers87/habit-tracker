@@ -25,7 +25,6 @@ export const App: React.FC = () => {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={TrackerWindow} />
-            <Route exact path="/test" component={TrackerWindow} />
             <Route exact path="/login" component={LoginModal} />
           </Switch>
         </Router>

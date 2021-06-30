@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useContext, useEffect } from 'react'
-import { Card } from 'semantic-ui-react';
+import { Button, Card } from 'semantic-ui-react';
 import agent from '../../api/agent';
 import { AppContext, IInitialState, types } from '../../store';
 import ITrackerWindow from '../../types/ITrackerWindow';
@@ -26,9 +26,10 @@ const TrackerWindow: React.FC = () => {
     
     return (
         <Fragment>
+            <Button>New Window</Button>
             <Card.Group centered style={{marginTop: '20px'}}>
-                {Windows.map((window: ITrackerWindow) => (
-                    <WindowCard window={window} />
+                {Windows.map((window: ITrackerWindow, i: number) => (
+                    <WindowCard key={'window-' + i} window={window} />
                 ))}
             </Card.Group>
         </Fragment>
