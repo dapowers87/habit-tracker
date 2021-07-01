@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 const LoginModal: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
     const { IsLoggedIn } = state as IInitialState;
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
     
@@ -23,7 +24,7 @@ const LoginModal: React.FC = () => {
         try {
             setIsLoggingIn(true);
 
-            var response = await agent.Login.login(password);
+            var response = await agent.Login.login(username, password);
 
             if(response) {
                 const jwt = response;
@@ -56,6 +57,7 @@ const LoginModal: React.FC = () => {
                 <Modal.Description style={{margin: '10px'}}>Please login to continue.</Modal.Description>
                 <Modal.Content>
                     <Form>
+                        <Form.Input onChange={changePassword} label='Username' value={username}/>
                         <Form.Input type='password' onChange={changePassword} label='Password' value={password}/>
                         <Form.Button loading={isLoggingIn} onClick={login} color='green'>Login</Form.Button>
                     </Form>

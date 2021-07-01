@@ -31,6 +31,7 @@ namespace Application.Actions.Window
                     return -1;
                 }
 
+                window.WindowName = request.Model.WindowName;
                 window.StartDate = request.Model.StartDate;
                 window.NumberOfDays = request.Model.NumberOfDays;
                 window.NumberOfCheatDays = request.Model.NumberOfCheatDays;
