@@ -8,6 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS builder
     COPY API ./API
     COPY Domain ./Domain
     COPY Application ./Application
+    COPY Persistence ./Persistence
     RUN dotnet publish API/API.csproj -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS final
