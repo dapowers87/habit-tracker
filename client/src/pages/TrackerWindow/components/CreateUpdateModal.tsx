@@ -36,7 +36,7 @@ const CreateUpdateModal: React.FC<{open: boolean, setOpen: (newVal: boolean) => 
                     <Form>
                         <Form.Input fluid label="Window Name" placeholder='Running' value={windowName} onChange={(_, val) => setWindowName(val.value)}/> 
                         <SemanticDatepicker label='Start Date' value={startDate} onChange={(_, value) => setStartDate(value.value as Date)} />
-                        <Form.Input min={1} type='number' fluid label="Window Length" placeholder='100' value={numberOfCheatDays} 
+                        <Form.Input min={1} type='number' fluid label="Window Length" placeholder='100' value={numberOfDays} 
                             onChange={(_, value) => setNumberOfDays(parseInt(value.value))}/> 
                         <Form.Input min={0} type='number' fluid label="Number of Cheat Days" placeholder='10' value={numberOfCheatDays}
                             onChange={(_, value) => setNumberOfCheatDays(parseInt(value.value))}/> 
