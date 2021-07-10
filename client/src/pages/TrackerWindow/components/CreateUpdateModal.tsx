@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import { toast } from 'react-toastify';
 import { Form, Modal } from 'semantic-ui-react';
 import agent from '../../../api/agent';
+import { AppContext, IInitialState, types } from '../../../store';
 import ITrackerWindow from '../../../types/ITrackerWindow';
 
 const CreateUpdateModal: React.FC<{open: boolean, setOpen: (newVal: boolean) => void}> = ({open, setOpen}) => {
 
+    const { state, dispatch } = useContext(AppContext);
+    const { Windows } = state as IInitialState;
+    
     const [windowName, setWindowName] = useState<string>('');
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [numberOfDays, setNumberOfDays] = useState<number>(100);
@@ -23,8 +27,24 @@ const CreateUpdateModal: React.FC<{open: boolean, setOpen: (newVal: boolean) => 
         const result = await agent.Window.create(window);
 
         if(result) {
-            toast.success("Window Created");
+            toast.success(`Window '${windowName}' Created`);
+
+            const newWindow = {...window, windowId: result, numberOfCheatDaysUsed: 0 } as ITrackerWindow;
+
+            if(Windows) {
+                dispatch({type: types.SETWINDOWS, Windows: [newWindow, ...Windows]});
+            } else {
+                dispatch({type: types.SETWINDOWS, Windows: [newWindow]});
+            }
+
+            setWindowName('');
+            setStartDate(new Date());
+            setNumberOfDays(100);
+            setNumberOfCheatDays(10);
+            
             setOpen(false);
+        } else {
+            toast.error("Error creating window");
         }
     }
 

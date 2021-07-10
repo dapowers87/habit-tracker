@@ -69,7 +69,7 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
         <>
             <Card style={{width: '75%'}}>
                 <Card.Header>
-                    <Header as='h2' textAlign='center'>Window #{window.windowId}</Header>
+                    <Header as='h2' textAlign='center'>{window.windowName}</Header>
                 </Card.Header>
                 <Card.Meta textAlign='center'>Date Range: {dateFormat(window.startDate, 'm/dd/yyyy')} - {dateFormat((new Date(window.startDate)).setDate((new Date(window.startDate)).getDate() + window.numberOfDays), 'm/dd/yyyy')}</Card.Meta>
                 <Card.Content>
