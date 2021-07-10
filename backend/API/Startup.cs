@@ -19,6 +19,7 @@ using Persistence;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
@@ -119,6 +120,12 @@ namespace API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<TrackerContext>();
+                context.Database.Migrate();
             }
 
             app.UseRouting();
