@@ -9,8 +9,8 @@ const CreateUpdateModal: React.FC<{open: boolean, setOpen: (newVal: boolean) => 
 
     const [windowName, setWindowName] = useState<string>('');
     const [startDate, setStartDate] = useState<Date>(new Date());
-    const [numberOfDays, setNumberOfDays] = useState<number>(0);
-    const [numberOfCheatDays, setNumberOfCheatDays] = useState<number>(0);
+    const [numberOfDays, setNumberOfDays] = useState<number>(100);
+    const [numberOfCheatDays, setNumberOfCheatDays] = useState<number>(10);
 
     const handleCreateOrUpdate = async () => {
         const window = {
