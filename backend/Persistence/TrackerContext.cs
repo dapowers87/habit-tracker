@@ -14,6 +14,7 @@ namespace Persistence
 
         public DbSet<LoginAudit> LoginAudits { get; set; }
         public DbSet<Window> Windows { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite(@"Data Source=/tmp/tracker.db");
