@@ -30,7 +30,7 @@ namespace API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -136,6 +136,13 @@ namespace API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
 
             app.UseEndpoints(endpoints =>
             {
