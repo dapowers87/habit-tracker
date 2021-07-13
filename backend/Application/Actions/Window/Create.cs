@@ -27,12 +27,6 @@ namespace Application.Actions.Window
             {
                 var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
 
-                System.Console.WriteLine(request.Username);
-                foreach(var u in context.Users)
-                {
-                    System.Console.WriteLine($"ID: {u.UserId}\tName: {u.Username}");
-                }
-
                 if(user == null)
                 {
                     return 2;

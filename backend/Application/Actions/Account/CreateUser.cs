@@ -50,7 +50,6 @@ namespace Application.Actions.Account
                     };
                 }
 
-                System.Console.WriteLine($"u: {request.Username}\tp:{request.Password}");
                 var user = new User
                 {
                     Username = request.Username,
