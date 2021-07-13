@@ -32,7 +32,7 @@ const TrackerWindow: React.FC = () => {
             <Grid>
                 <Grid.Column textAlign='center'>
                     <Grid.Row>
-                        <Button icon='plus' content='New Window' style={{marginTop: '10px'}} positive onClick={() => setShowCreateEditModal(true)}/>
+                        <Button icon='plus' content='New Habit' style={{marginTop: '10px'}} positive onClick={() => setShowCreateEditModal(true)}/>
                     </Grid.Row>
                 </Grid.Column>
             </Grid>

@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.ApiModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,28 +10,33 @@ namespace Application.Actions.Window
 {
     public class Get
     {
-        public class Query : IRequest<Persistence.Entities.Window>
+        public class Query : IRequest<WindowWithoutUser>
         {
             public string Username { get; set; }
             public int WindowId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Persistence.Entities.Window>
+        public class Handler : IRequestHandler<Query, WindowWithoutUser>
         {
             private readonly TrackerContext context;
-            public Handler(TrackerContext context)
+            private readonly IMapper mapper;
+
+            public Handler(TrackerContext context, IMapper mapper)
             {
                 this.context = context;
+                this.mapper = mapper;
             }
 
-            public async Task<Persistence.Entities.Window> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<WindowWithoutUser> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await context.Windows.FirstOrDefaultAsync(window => window.WindowId == request.WindowId);
+                var window = await context.Windows.FirstOrDefaultAsync(window => window.WindowId == request.WindowId);
 
-                if(result.User.Username != request.Username)
+                if(window.User.Username != request.Username)
                 {
                     return null;
                 }
+
+                var result = mapper.Map<WindowWithoutUser>(window);
 
                 return result;
             }

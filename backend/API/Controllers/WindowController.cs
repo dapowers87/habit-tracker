@@ -56,7 +56,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult<Window>> Get(int windowId)
+        public async Task<ActionResult<WindowWithoutUser>> Get(int windowId)
         {
             var result = await mediator.Send(new Get.Query { Username = GetUsername(), WindowId = windowId });
 
@@ -67,7 +67,7 @@ namespace API.Controllers
         [Authorize]
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult<List<Window>>> GetAll(bool includeExpired)
+        public async Task<ActionResult<List<WindowWithoutUser>>> GetAll(bool includeExpired)
         {
             var result = await mediator.Send(new GetAll.Query { Username = GetUsername(), IncludeExpired = includeExpired });
 

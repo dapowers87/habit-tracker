@@ -20,6 +20,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Application.Mapper;
 
 namespace API
 {
@@ -81,6 +83,7 @@ namespace API
 
             services.AddTransient<IJWTHandler, JWTHandler>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton(CreateMapper());
 
             services.AddDbContext<TrackerContext>();
 
@@ -147,6 +150,16 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static IMapper CreateMapper()
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            return mappingConfig.CreateMapper();
         }
     }
 }
