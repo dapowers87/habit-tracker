@@ -48,7 +48,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
         if(window && Windows) {
             windowToSend.windowId = window.windowId;
             windowToSend.numberOfCheatDaysUsed = window.numberOfCheatDaysUsed;
-            
+
             const result = await agent.Window.update(windowToSend); 
             
             if(result) {
@@ -65,7 +65,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
 
             const result = await agent.Window.create(windowToSend);
 
-            if(result) {
+            if(result && result !== 2) {
                 toast.success(`Window '${windowName}' Created`);
 
                 const newWindow = {...windowToSend, windowId: result, numberOfCheatDaysUsed: 0 } as ITrackerWindow;

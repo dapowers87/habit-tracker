@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Actions.Account;
 using Application.Actions.Window;
@@ -26,6 +27,18 @@ namespace API.Controllers
             this.mediator = mediator;
         }
 
+        private string GetUsername()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var username = string.Empty;
+            if (identity != null)
+            {
+                username = identity.FindFirst("username").Value;
+            }
+
+            return username;
+        }
+
         [HttpPost]
         [Authorize]
         [SwaggerResponse((int)HttpStatusCode.Created)]
@@ -33,9 +46,9 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<int>> Create(CreateWindowModel model)
         {
-            var result = await mediator.Send(new Create.Command { Model = model });
+            var result = await mediator.Send(new Create.Command { Username = GetUsername(), Model = model });
 
-            return result == -1 ? BadRequest(-1) : Created($"ap1/v1/Window/Get?windowId={result}", result);
+            return (result == -1 || result == 2) ? BadRequest(result) : Created($"ap1/v1/Window/Get?windowId={result}", result);
         }
 
         [HttpGet]
@@ -45,7 +58,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
         public async Task<ActionResult<Window>> Get(int windowId)
         {
-            var result = await mediator.Send(new Get.Query { WindowId = windowId });
+            var result = await mediator.Send(new Get.Query { Username = GetUsername(), WindowId = windowId });
 
             return result == null ? NotFound() : Ok(result);
         }
@@ -56,7 +69,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.Unauthorized)]
         public async Task<ActionResult<List<Window>>> GetAll(bool includeExpired)
         {
-            var result = await mediator.Send(new GetAll.Query { IncludeExpired = includeExpired });
+            var result = await mediator.Send(new GetAll.Query { Username = GetUsername(), IncludeExpired = includeExpired });
 
             return Ok(result);
         }
@@ -70,10 +83,11 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK)]
         public async Task<ActionResult> Update(UpdateWindowModel model)
         {
-            var result = await mediator.Send(new Update.Command { Model = model });
+            var result = await mediator.Send(new Update.Command { Username = GetUsername(), Model = model });
 
             switch(result)
             {
+                case 2:    
                 case -1:
                     return NotFound();
                 case 1:
@@ -92,10 +106,11 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK)]
         public async Task<ActionResult> UpdateCheatDays(int windowId, int newCheatDaysUsed)
         {
-            var result = await mediator.Send(new UpdateCheatDays.Command { WindowId = windowId, NewCheatDaysUsed = newCheatDaysUsed });
+            var result = await mediator.Send(new UpdateCheatDays.Command { Username = GetUsername(), WindowId = windowId, NewCheatDaysUsed = newCheatDaysUsed });
 
             switch(result)
             {
+                case 2:
                 case -1:
                     return NotFound();
                 case 0:
@@ -114,10 +129,11 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK)]
         public async Task<ActionResult> Delete(int windowId)
         {
-            var result = await mediator.Send(new Delete.Command { WindowId = windowId });
+            var result = await mediator.Send(new Delete.Command { Username = GetUsername(), WindowId = windowId });
 
             switch(result)
             {
+                case 2:
                 case -1:
                     return NotFound();
                 case 0:

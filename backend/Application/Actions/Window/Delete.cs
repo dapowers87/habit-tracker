@@ -11,6 +11,7 @@ namespace Application.Actions.Window
     {
         public class Command : IRequest<int>
         {
+            public string Username { get; set; }
             public int WindowId { get; set; }
         }
 
@@ -30,7 +31,11 @@ namespace Application.Actions.Window
                 {
                     return -1;
                 }
-
+                else if(window.User.Username != request.Username)
+                {
+                    return -1;
+                }
+                
                 context.Windows.Remove(window);
 
                 var saveResult = await context.SaveChangesAsync(cancellationToken) > 0;

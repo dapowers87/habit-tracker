@@ -52,6 +52,7 @@ namespace API.Controllers
         [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<string>> CreateUser(string username, string password)
         {
+            System.Console.WriteLine($"u: {username}\tp:{password}");
             var result = await mediator.Send(new CreateUser.Command 
             { 
                 Username = username, 

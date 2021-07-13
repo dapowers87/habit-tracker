@@ -11,6 +11,7 @@ namespace Application.Actions.Window
     {
         public class Query : IRequest<Persistence.Entities.Window>
         {
+            public string Username { get; set; }
             public int WindowId { get; set; }
         }
 
@@ -25,6 +26,11 @@ namespace Application.Actions.Window
             public async Task<Persistence.Entities.Window> Handle(Query request, CancellationToken cancellationToken)
             {
                 var result = await context.Windows.FirstOrDefaultAsync(window => window.WindowId == request.WindowId);
+
+                if(result.User.Username != request.Username)
+                {
+                    return null;
+                }
 
                 return result;
             }

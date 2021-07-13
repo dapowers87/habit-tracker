@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.ApiModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Actions.Window
@@ -10,6 +11,7 @@ namespace Application.Actions.Window
     {
         public class Command : IRequest<int>
         {
+            public string Username { get; set; }
             public CreateWindowModel Model { get; set; }
         }
 
@@ -23,12 +25,26 @@ namespace Application.Actions.Window
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
+
+                System.Console.WriteLine(request.Username);
+                foreach(var u in context.Users)
+                {
+                    System.Console.WriteLine($"ID: {u.UserId}\tName: {u.Username}");
+                }
+
+                if(user == null)
+                {
+                    return 2;
+                }
+
                 var newWindow = new Persistence.Entities.Window
                 {
                     WindowName = request.Model.WindowName,
                     StartDate = request.Model.StartDate.Date,
                     NumberOfDays = request.Model.NumberOfDays,
-                    NumberOfCheatDays = request.Model.NumberOfCheatDays
+                    NumberOfCheatDays = request.Model.NumberOfCheatDays,
+                    User = user
                 };
 
                 await context.Windows.AddAsync(newWindow, cancellationToken);

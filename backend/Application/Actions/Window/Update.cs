@@ -11,6 +11,7 @@ namespace Application.Actions.Window
     {
         public class Command : IRequest<int>
         {
+            public string Username { get; set; }
             public UpdateWindowModel Model { get; set; }
         }
 
@@ -29,6 +30,10 @@ namespace Application.Actions.Window
                 if(window == null)
                 {
                     return -1;
+                }
+                else if(window.User.Username != request.Username)
+                {
+                    return 2;
                 }
 
                 window.WindowName = request.Model.WindowName;

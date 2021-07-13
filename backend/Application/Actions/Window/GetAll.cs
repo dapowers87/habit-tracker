@@ -13,6 +13,7 @@ namespace Application.Actions.Window
     {
         public class Query : IRequest<List<Persistence.Entities.Window>>
         {
+            public string Username { get; set; }
             public bool IncludeExpired { get; set; }
         }
 
@@ -26,9 +27,18 @@ namespace Application.Actions.Window
 
             public async Task<List<Persistence.Entities.Window>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await context.Windows.Where(window => request.IncludeExpired ? true : (window.StartDate.AddDays(window.NumberOfDays) >= DateTime.Now))
+                Console.WriteLine(request.Username);
+                foreach(var window in context.Windows.Include(w => w.User))
+                {
+                    Console.WriteLine($"ID: {window.WindowId}\tUsername: {window.User?.Username}");
+                }
+                var result = await context.Windows.Include(window => window.User)
+                                                  .Where(window => window.User.Username == request.Username)
+                                                  .Where(window => request.IncludeExpired ? true : (window.StartDate.AddDays(window.NumberOfDays) >= DateTime.Now))
                                                   .OrderByDescending(window => window.WindowId)
                                                   .ToListAsync(cancellationToken);
+
+
 
                 return result;
             }
