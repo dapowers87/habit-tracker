@@ -25,7 +25,7 @@ namespace Application.Actions.Window
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var window = await context.Windows.FirstOrDefaultAsync(window => window.WindowId == request.Model.WindowId);
+                var window = await context.Windows.Include(w => w.User).FirstOrDefaultAsync(window => window.WindowId == request.Model.WindowId);
 
                 if(window == null)
                 {
