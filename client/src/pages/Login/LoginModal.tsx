@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react'
-import { Modal, Form, InputOnChangeData } from 'semantic-ui-react'
+import { Modal, Form, InputOnChangeData, Grid } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import agent from '../../api/agent'
 import { AppContext, IInitialState, types } from '../../store'
@@ -51,6 +51,10 @@ const LoginModal: React.FC = () => {
         setPassword(data.value);
     }
 
+    const setRegistering = () => {
+        localStorage.setItem("isRegistering", 'true');
+    }
+
     return (
         <Fragment>
             <Modal
@@ -63,8 +67,13 @@ const LoginModal: React.FC = () => {
                     <Form>
                         <Form.Input onChange={changeUsername} label='Username' value={username}/>
                         <Form.Input type='password' onChange={changePassword} label='Password' value={password}/>
-                        <Form.Button loading={isLoggingIn} onClick={login} color='green'>Login</Form.Button>
+                        <Form.Button floated='right' loading={isLoggingIn} onClick={login} color='green'>Login</Form.Button>
                     </Form>
+                    <Grid>
+                        <Grid.Column textAlign='center'>
+                            <a href='/register' onClick={setRegistering}>Register a New Account</a>
+                        </Grid.Column>
+                    </Grid>
                 </Modal.Content>
             </Modal>
         </Fragment>

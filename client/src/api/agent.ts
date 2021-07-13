@@ -18,7 +18,10 @@ axios.interceptors.response.use(undefined, (error: any) => {
         }
     } else if(error.response.status === 401) {
         localStorage.removeItem("jwt");
-        history.push("/login");
+
+        if(!localStorage.getItem("isRegistering")) {
+            history.push("/login");
+        }
     } else if(error.response.status === 403) {
         toast.error("You do not have sufficient rights to view this resource or perform the attempted action");
     } else if(error.response.status === 400) {
@@ -40,8 +43,6 @@ axios.interceptors.request.use(
 
         if(jwt) {
             config.headers.Authorization = `Bearer ${jwt}`;
-        } else {
-            history.push("/login");
         }
         
         return config;
@@ -96,7 +97,8 @@ const requests = {
 
 const Login = {
     login: async (username: string, password: string) => await requests.post(`/v1/Account/Login?username=${username}&password=${password}`, { }),
-    quickAuthorizationCheck: async () => await requests.get('/v1/Account/QuickAuthorizationCheck')
+    quickAuthorizationCheck: async () => await requests.get('/v1/Account/QuickAuthorizationCheck'),
+    create: async (username: string, password: string) => await requests.post(`/v1/Account/CreateUser?username=${username}&password=${password}`, { }),
 }
 
 const Window = {
