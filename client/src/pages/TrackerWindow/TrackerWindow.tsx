@@ -1,5 +1,4 @@
-import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react'   
 import { Button, Card, Grid } from 'semantic-ui-react';
 import agent from '../../api/agent';
 import { AppContext, IInitialState, types } from '../../store';
@@ -13,8 +12,6 @@ const TrackerWindow: React.FC = () => {
     const { Windows } = state as IInitialState;
 
     const [showCreateEditModal, setShowCreateEditModal] = useState<boolean>(false);
-
-    let history = useHistory();
 
     const loadWindows = useCallback(async () => {
         const windows = await agent.Window.getAll();
