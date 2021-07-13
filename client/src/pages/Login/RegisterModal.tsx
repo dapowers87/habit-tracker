@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { InputOnChangeData, Modal, Form } from 'semantic-ui-react';
@@ -11,6 +11,12 @@ const RegisterModal: React.FC = () => {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
 
     let history = useHistory();
+
+    useEffect(() => {
+        return () => {
+          localStorage.removeItem('isRegistering');
+        };
+    }, []);
 
     const Register = async () => {
         if(password !== password2) {
