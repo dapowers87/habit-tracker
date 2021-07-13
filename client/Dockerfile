@@ -1,4 +1,4 @@
-FROM nginx AS base
+FROM nginx:1.20.1 AS base
     EXPOSE 443
     ENV TZ=America/Chicago
     ENV DOLLAR $
