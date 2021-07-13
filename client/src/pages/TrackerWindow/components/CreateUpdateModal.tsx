@@ -19,7 +19,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
     useEffect(() => {
         if(window) {
             setWindowName(window.windowName);
-            setStartDate(window.startDate);
+            setStartDate(new Date(window.startDate));
             setNumberOfDays(window.numberOfDays);
             setNumberOfCheatDays(window.numberOfCheatDays);
         }
@@ -33,6 +33,11 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
             setNumberOfCheatDays(10);
         };
 
+        if(numberOfCheatDays > numberOfDays) {
+            toast.error('Number of cheat days cannot be greater than number of days');
+            return;
+        }
+
         let windowToSend = {
             windowName,
             startDate,
@@ -40,12 +45,20 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
             numberOfDays
         } as ITrackerWindow;
 
-        if(window) {
+        if(window && Windows) {
             windowToSend.windowId = window.windowId;
+            windowToSend.numberOfCheatDaysUsed = window.numberOfCheatDaysUsed;
+            
             const result = await agent.Window.update(windowToSend); 
+            
             if(result) {
                 toast.success("Window updated");
-                clearModal();
+                
+                const index: number = Windows.map((subItem: ITrackerWindow) => subItem.windowId).indexOf(window.windowId);
+                const preWindow = Windows.slice(0, index);
+                const postWindow = Windows.slice(index + 1);
+
+                dispatch({type: types.SETWINDOWS, Windows: [...preWindow, windowToSend, ...postWindow]});
                 setOpen(false);
             }
         } else {

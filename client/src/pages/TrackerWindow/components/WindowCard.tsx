@@ -1,10 +1,11 @@
 import dateFormat from 'dateformat';
 import React, { useCallback, useContext, useState } from 'react'
-import { Button, Card, Header, Label, Progress, Statistic } from 'semantic-ui-react';
+import { Button, Card, Confirm, Grid, Header, Label, Progress, Statistic } from 'semantic-ui-react';
 import agent from '../../../api/agent';
 import { AppContext, IInitialState, types } from '../../../store';
 import ITrackerWindow from '../../../types/ITrackerWindow';
 import { WindowUtil } from '../../../util/WindowUtil';
+import CreateUpdateModal from './CreateUpdateModal';
 
 const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
 
@@ -14,6 +15,8 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
     const [disableAddButton, setDisableAddButton] = useState<boolean>(false);
     const [disableRemoveButton, setDisableRemoveButton] = useState<boolean>(false);
     const [, setMinuteCounter] = useState<number>(0);
+    const [showUpdate, setShowUpdate] = useState<boolean>(false);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
 
     const handleAddCheatDay = async () => {
         setDisableAddButton(true);
@@ -65,11 +68,42 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
         return endDate as any > now;
     }
 
+    const handleUpdateClick = () => {
+        setShowUpdate(true);
+    }
+
+    const handleDeleteClick = async () => {
+        setShowDelete(true);
+    }
+
+    const handleDelete = async () => {
+        await agent.Window.delete(window.windowId);
+
+        if(Windows) {
+            const index: number = Windows.map((subItem: ITrackerWindow) => subItem.windowId).indexOf(window.windowId);
+            const preWindow = Windows.slice(0, index);
+            const postWindow = Windows.slice(index + 1);
+            dispatch({type: types.SETWINDOWS, Windows: [...preWindow, ...postWindow]});
+        }
+
+        setShowDelete(false);
+    }
+
     return (
         <>
+            <Confirm open={showDelete} onConfirm={async () => await handleDelete()}></Confirm>
+            <CreateUpdateModal open={showUpdate} setOpen={setShowUpdate} window={window}></CreateUpdateModal>
             <Card style={{width: '75%'}}>
                 <Card.Header>
-                    <Header as='h2' textAlign='center'>{window.windowName}</Header>
+                    <Header as='h2' textAlign='center' style={{marginBottom: '0px'}}>{window.windowName}</Header>
+                    <Grid>
+                        <Grid.Row verticalAlign='middle'>
+                            <Grid.Column textAlign='right'>
+                                <Button compact icon='delete' content='Delete' floated='right' negative onClick={handleDeleteClick} style={{marginTop: '10px', marginRight: '10px'}} />
+                                <Button compact floated='right' color='blue' onClick={handleUpdateClick} style={{marginTop: '10px', marginRight: '10px', top: "50%"}}>Update</Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Card.Header>
                 <Card.Meta textAlign='center'>Date Range: {dateFormat(window.startDate, 'm/dd/yyyy')} - {dateFormat((new Date(window.startDate)).setDate((new Date(window.startDate)).getDate() + window.numberOfDays), 'm/dd/yyyy')}</Card.Meta>
                 <Card.Content>

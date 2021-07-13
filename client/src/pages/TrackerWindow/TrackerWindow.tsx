@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react'
-import { Button, Card } from 'semantic-ui-react';
+import { Button, Card, Grid } from 'semantic-ui-react';
 import agent from '../../api/agent';
 import { AppContext, IInitialState, types } from '../../store';
 import ITrackerWindow from '../../types/ITrackerWindow';
@@ -29,7 +29,13 @@ const TrackerWindow: React.FC = () => {
     
     return (
         <Fragment>
-            <Button onClick={() => setShowCreateEditModal(true)}>New Window</Button>
+            <Grid>
+                <Grid.Column textAlign='center'>
+                    <Grid.Row>
+                        <Button icon='plus' content='New Window' style={{marginTop: '10px'}} positive onClick={() => setShowCreateEditModal(true)}/>
+                    </Grid.Row>
+                </Grid.Column>
+            </Grid>
             <CreateUpdateModal open={showCreateEditModal} setOpen={setShowCreateEditModal}/>
             <Card.Group centered style={{marginTop: '20px'}}>
                 {Windows.map((window: ITrackerWindow, i: number) => (

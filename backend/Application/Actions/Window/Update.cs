@@ -37,9 +37,9 @@ namespace Application.Actions.Window
                 window.NumberOfCheatDays = request.Model.NumberOfCheatDays;
                 window.NumberOfCheatDaysUsed = request.Model.NumberOfCheatDaysUsed;
 
-                var saveResult = await context.SaveChangesAsync(cancellationToken) > 0;
+                var saveResult = await context.SaveChangesAsync(cancellationToken);
 
-                var result = saveResult ? 1 : 0;
+                var result = saveResult == 1 || saveResult == 0 ? 1 : 0;
 
                 return result;
             }

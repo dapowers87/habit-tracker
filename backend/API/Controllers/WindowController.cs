@@ -76,12 +76,10 @@ namespace API.Controllers
             {
                 case -1:
                     return NotFound();
-                case 0:
-                    return BadRequest();
                 case 1:
-                    return NoContent();
+                    return Ok(true);
                 default:
-                    return Ok();
+                    return BadRequest("Unknown Error");
             }
         }
 
