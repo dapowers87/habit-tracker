@@ -43,6 +43,10 @@ const LoginModal: React.FC = () => {
         }
     }
 
+    const changeUsername = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
+        setUsername(data.value);
+    }
+
     const changePassword = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
         setPassword(data.value);
     }
@@ -57,7 +61,7 @@ const LoginModal: React.FC = () => {
                 <Modal.Description style={{margin: '10px'}}>Please login to continue.</Modal.Description>
                 <Modal.Content>
                     <Form>
-                        <Form.Input onChange={changePassword} label='Username' value={username}/>
+                        <Form.Input onChange={changeUsername} label='Username' value={username}/>
                         <Form.Input type='password' onChange={changePassword} label='Password' value={password}/>
                         <Form.Button loading={isLoggingIn} onClick={login} color='green'>Login</Form.Button>
                     </Form>

@@ -86,7 +86,7 @@ namespace Application.Actions.Account
 
                     if(loginAudit.FailCount <= config.MaxAttempts)
                     {
-                        result = jwtHandler.CreateToken();
+                        result = jwtHandler.CreateToken(user.Username, user.IsAdmin);
 
                         loginAudit.FailCount = 0;
                     }
