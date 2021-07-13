@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react'
 import { Modal, Form, InputOnChangeData, Grid } from 'semantic-ui-react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import agent from '../../api/agent'
 import { AppContext, IInitialState, types } from '../../store'
 import { toast } from 'react-toastify'
@@ -71,7 +71,7 @@ const LoginModal: React.FC = () => {
                     </Form>
                     <Grid>
                         <Grid.Column textAlign='center'>
-                            <a href='/register' onClick={setRegistering}>Register a New Account</a>
+                            <Link to='/register' onClick={setRegistering}>Register a New Account</Link>
                         </Grid.Column>
                     </Grid>
                 </Modal.Content>
