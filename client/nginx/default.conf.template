@@ -1,0 +1,27 @@
+server {
+    listen       443 ssl;
+    server_name  localhost;
+
+    ssl_certificate ${CERT_LOCATION};
+    ssl_certificate_key ${CERT_KEY_LOCATION};
+
+    error_page 497 301 =307 https://${DOLLAR}host:${PORT}${DOLLAR}request_uri;
+    
+    location / {
+        absolute_redirect off; 
+        port_in_redirect off;
+
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+        try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.html;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+} 
