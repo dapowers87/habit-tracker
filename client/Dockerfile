@@ -2,8 +2,6 @@ FROM nginx:1.20.1 AS base
     EXPOSE 443
     ENV TZ=America/Chicago
     ENV DOLLAR $
-    RUN apt-get update
-    RUN apt-get install -y curl
 
 # build environment
 FROM node:16-alpine as build
