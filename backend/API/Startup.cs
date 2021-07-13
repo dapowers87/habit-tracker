@@ -80,6 +80,7 @@ namespace API
             }));
 
             services.AddTransient<IJWTHandler, JWTHandler>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             services.AddDbContext<TrackerContext>();
 
@@ -91,8 +92,6 @@ namespace API
                 options.EnableEndpointRouting = false;
             });
                         
-
-            Console.WriteLine($"authkey is {Configuration["Authentication:AuthKey"]}");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:AuthKey"]));
             services.AddAuthentication(x =>
             {

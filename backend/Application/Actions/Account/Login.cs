@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Security;
+using Domain.ApiModels;
 using Domain.Configuration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,13 @@ namespace Application.Actions.Account
             private readonly ILogger<Login> logger;
             private readonly IJWTHandler jwtHandler;
             private readonly TrackerContext context;
+            private readonly IPasswordHasher passwordHasher;
 
-            public Handler(IOptions<AuthenticationSettings> config, ILogger<Login> logger, IJWTHandler jwt, TrackerContext context)
+            public Handler(IOptions<AuthenticationSettings> config, ILogger<Login> logger, IJWTHandler jwt, TrackerContext context, IPasswordHasher passwordHasher)
             {
                 this.jwtHandler = jwt;
                 this.context = context;
+                this.passwordHasher = passwordHasher;
                 this.logger = logger;
                 this.config = config.Value;
             }
@@ -63,7 +66,18 @@ namespace Application.Actions.Account
                     loginAudit = prevAudit;
                 }
 
-                if (request.Password == "test")
+                var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
+
+                if(user == null)
+                {
+                    logger.LogInformation($"User '{request.Username} not found");
+                    loginAudit.FailCount++;
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    return result;
+                }
+
+                if (passwordHasher.CheckPassword(request.Password, user.PasswordHash))
                 {
                     if(loginAudit.LoginAttemptDate.AddDays(1) <= DateTime.Now)
                     {
@@ -73,6 +87,7 @@ namespace Application.Actions.Account
                     if(loginAudit.FailCount <= config.MaxAttempts)
                     {
                         result = jwtHandler.CreateToken();
+
                         loginAudit.FailCount = 0;
                     }
                     else

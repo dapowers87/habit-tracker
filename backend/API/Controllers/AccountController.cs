@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Application.Actions.Account;
+using Domain.ApiModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +40,49 @@ namespace API.Controllers
                 }
                 else
                 {
-                    return Unauthorized("Invalid Password");
+                    return Unauthorized("Invalid Username/Password");
                 }
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<string>> CreateUser(string username, string password)
+        {
+            var result = await mediator.Send(new CreateUser.Command 
+            { 
+                Username = username, 
+                Password = password,
+                IsAdmin = false
+            });
+
+            if(!result.Success)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult<string>> CreateAdminUser(string username, string password)
+        {
+            var result = await mediator.Send(new CreateUser.Command 
+            { 
+                Username = username, 
+                Password = password,
+                IsAdmin = true
+            });
+
+            if(!result.Success)
+            {
+                return BadRequest(result.ErrorMessage);
             }
 
             return Ok(result);
