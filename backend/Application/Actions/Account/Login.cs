@@ -66,39 +66,40 @@ namespace Application.Actions.Account
                     loginAudit = prevAudit;
                 }
 
-                var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
-
-                if(user == null)
+                if(loginAudit.LoginAttemptDate.AddMinutes(5) <= DateTime.Now)
                 {
-                    logger.LogInformation($"User '{request.Username}' not found");
-                    loginAudit.FailCount++;
-                    await context.SaveChangesAsync(cancellationToken);
-
-                    return result;
+                    loginAudit.FailCount = 0;
                 }
 
-                if (passwordHasher.CheckPassword(request.Password, user.PasswordHash))
+                loginAudit.LoginAttemptDate = DateTime.Now;
+
+                if(loginAudit.FailCount <= config.MaxAttempts)
                 {
-                    if(loginAudit.LoginAttemptDate.AddDays(1) <= DateTime.Now)
+                    var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
+
+                    if(user == null)
                     {
-                        loginAudit.FailCount = 0;
+                        logger.LogInformation($"User '{request.Username}' not found");
+                        loginAudit.FailCount++;
+                        await context.SaveChangesAsync(cancellationToken);
+
+                        return result;
                     }
 
-                    if(loginAudit.FailCount <= config.MaxAttempts)
+                    if (passwordHasher.CheckPassword(request.Password, user.PasswordHash))
                     {
                         result = jwtHandler.CreateToken(user.Username, user.IsAdmin);
-
                         loginAudit.FailCount = 0;
                     }
                     else
                     {
                         loginAudit.FailCount++;
-                        result = null;
                     }
                 }
                 else
                 {
                     loginAudit.FailCount++;
+                    result = null;
                 }
 
                 await context.SaveChangesAsync(cancellationToken);

@@ -30,7 +30,7 @@ const LoginModal: React.FC = () => {
                 setPassword("");
                 toast.error("Incorrect username or password. Try again.");
             } else if(response.startsWith('Locked')) {
-                toast.error("Too many login attempts... Locked out");
+                toast.error("Too many login attempts... Locked out for five minutes");
             } else {
                 const jwt = response;
                 localStorage.setItem("jwt", jwt);
