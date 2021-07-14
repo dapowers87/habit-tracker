@@ -52,7 +52,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
             const result = await agent.Window.update(windowToSend); 
             
             if(result) {
-                toast.success("Window updated");
+                toast.success("Habit updated");
                 
                 const index: number = Windows.map((subItem: ITrackerWindow) => subItem.windowId).indexOf(window.windowId);
                 const preWindow = Windows.slice(0, index);
@@ -66,7 +66,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
             const result = await agent.Window.create(windowToSend);
 
             if(result && result !== 2) {
-                toast.success(`Window '${windowName}' Created`);
+                toast.success(`Habit '${windowName}' Created`);
 
                 const newWindow = {...windowToSend, windowId: result, numberOfCheatDaysUsed: 0 } as ITrackerWindow;
 
@@ -80,7 +80,7 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
                 
                 setOpen(false);
             } else {
-                toast.error("Error creating window");
+                toast.error("Error creating habit");
             }
         }
     }
@@ -91,9 +91,9 @@ const CreateUpdateModal: React.FC<{window?: ITrackerWindow, open: boolean, setOp
                 <Modal.Header>New Habit</Modal.Header>
                 <Modal.Content>
                     <Form>
-                        <Form.Input fluid label="Window Name" placeholder='Running' value={windowName} onChange={(_, val) => setWindowName(val.value)}/> 
+                        <Form.Input fluid label="Habit Name" placeholder='Running' value={windowName} onChange={(_, val) => setWindowName(val.value)}/> 
                         <SemanticDatepicker label='Start Date' value={startDate} onChange={(_, value) => setStartDate(value.value as Date)} />
-                        <Form.Input min={1} type='number' fluid label="Window Length" placeholder='100' value={numberOfDays} 
+                        <Form.Input min={1} type='number' fluid label="Habit Length" placeholder='100' value={numberOfDays} 
                             onChange={(_, value) => setNumberOfDays(parseInt(value.value))}/> 
                         <Form.Input min={0} type='number' fluid label="Number of Cheat Days" placeholder='10' value={numberOfCheatDays}
                             onChange={(_, value) => setNumberOfCheatDays(parseInt(value.value))}/> 
