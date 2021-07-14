@@ -33,7 +33,7 @@ namespace API.Controllers
             var username = string.Empty;
             if (identity != null)
             {
-                username = identity.FindFirst("username").Value;
+                username = identity.FindFirst("username")?.Value;
             }
 
             return username;

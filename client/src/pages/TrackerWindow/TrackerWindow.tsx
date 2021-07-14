@@ -35,12 +35,16 @@ const TrackerWindow: React.FC = () => {
     return (
         <Fragment>
             <Grid>
-                <Grid.Column textAlign='center'>
-                    <Grid.Row>
-                        <Button icon='plus' content='New Habit' style={{marginTop: '10px'}} positive onClick={() => setShowCreateEditModal(true)}/>
+                <Grid.Row>
+                    <Grid.Column textAlign='center'>
                         <Button floated='right' icon='logout' content='Log Out' style={{marginTop: '10px', marginRight: '10px'}} onClick={LogOut}/>
-                    </Grid.Row>
-                </Grid.Column>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row textAlign='center'>
+                    <Grid.Column textAlign='center'>
+                        <Button icon='plus' content='New Habit' style={{marginTop: '10px'}} positive onClick={() => setShowCreateEditModal(true)}/>
+                    </Grid.Column>
+                </Grid.Row>
             </Grid>
             <CreateUpdateModal open={showCreateEditModal} setOpen={setShowCreateEditModal}/>
             <Card.Group centered style={{marginTop: '20px'}}>

@@ -70,7 +70,7 @@ namespace Application.Actions.Account
 
                 if(user == null)
                 {
-                    logger.LogInformation($"User '{request.Username} not found");
+                    logger.LogInformation($"User '{request.Username}' not found");
                     loginAudit.FailCount++;
                     await context.SaveChangesAsync(cancellationToken);
 

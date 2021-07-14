@@ -26,16 +26,18 @@ const LoginModal: React.FC = () => {
 
             var response = await agent.Login.login(username, password);
 
-            if(response) {
+            if(response.startsWith('Invalid')) {
+                setPassword("");
+                toast.error("Incorrect username or password. Try again.");
+            } else if(response.startsWith('Locked')) {
+                toast.error("Too many login attempts... Locked out");
+            } else {
                 const jwt = response;
                 localStorage.setItem("jwt", jwt);
                 
                 dispatch( { type: types.SETISLOGGEDIN, IsLoggedIn: true } );
                 
                 history.push("/");
-            } else {
-                setPassword("");
-                toast.error("Incorrect username or password. Try again.");
             }
         }
         finally {
