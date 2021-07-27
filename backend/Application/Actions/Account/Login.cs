@@ -75,7 +75,7 @@ namespace Application.Actions.Account
 
                 if(loginAudit.FailCount <= config.MaxAttempts)
                 {
-                    var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username);
+                    var user = await context.Users.FirstOrDefaultAsync(user => user.Username == request.Username.ToLower().Trim());
 
                     if(user == null)
                     {
