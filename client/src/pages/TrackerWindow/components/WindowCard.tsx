@@ -116,7 +116,7 @@ const WindowCard: React.FC<{window: ITrackerWindow}> = ({ window }) => {
                 </Card.Content>
                 <Card.Content>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Statistic.Group>
+                        <Statistic.Group horizontal>
                             <Statistic>
                                 <Statistic.Value>{window.numberOfDays}</Statistic.Value>
                                 <Statistic.Label>Window Length</Statistic.Label>
