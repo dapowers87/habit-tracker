@@ -52,7 +52,7 @@ namespace Application.Actions.Account
 
                 var user = new User
                 {
-                    Username = request.Username,
+                    Username = request.Username.ToLower().Trim(),
                     PasswordHash = passwordHasher.HashPassword(request.Password),
                     IsAdmin = request.IsAdmin
                 };
