@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Application.Actions.Account;
 using Domain.ApiModels;
@@ -86,6 +87,16 @@ namespace API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        public async Task<List<string>> GetUsernames()
+        {
+            var result = await mediator.Send(new GetUsernames.Query());
+
+            return result;
         }
 
         [HttpGet]

@@ -99,6 +99,7 @@ const Login = {
     login: async (username: string, password: string) => await requests.post(`/v1/Account/Login?username=${username}&password=${password}`, { }),
     quickAuthorizationCheck: async () => await requests.get('/v1/Account/QuickAuthorizationCheck'),
     create: async (username: string, password: string) => await requests.post(`/v1/Account/CreateUser?username=${username}&password=${password}`, { }),
+    getAllUsers: async () => await requests.get('/v1/Account/GetUsernames') as string[]
 }
 
 const Window = {
